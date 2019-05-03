@@ -68,47 +68,13 @@ sudo ufw allow 8000/tcp  `serve another app on the server`
 sudo ufw enable
 ```
 
-#### 7. `Extra Step` Configure fail2ban to monitor unsuccessful login attempts
-```
-sudo apt-get install fail2ban sendmail
-sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
-sudo nano /etc/fail2ban/jail.local
-```
-Then Update the following:
-```
-destemail = [my email address]
-action = %(action_mwl)s
-
-[ssh]
-
-banaction = ufw-ssh
-port     = 2200
-```
-Create the ufw-ssh action referenced above:
-```
-sudo nano /etc/fail2ban/action.d/ufw-ssh.conf
-```
-Add the following:
-```
-[Definition]
-actionstart =
-actionstop =
-actioncheck =
-actionban = ufw insert 1 deny from <ip> to any app OpenSSH
-actionunban = ufw delete deny from <ip> to any app OpenSSH
-```
-Finally, restart fail2ban:
-```
-sudo service fail2ban restart
-```
-
-#### 8. Install Apache2 and mod-wsgi for python3 and Git
+#### 7. Install Apache2 and mod-wsgi for python3 and Git
 ```
 sudo apt-get install apache2 libapache2-mod-wsgi-py3 git
 ```
 Note: For Python2 replace `libapache2-mod-wsgi-py3` with `libapache2-mod-wsgi`
 
-#### 9. Install and configure PostgreSQL
+#### 8. Install and configure PostgreSQL
 ```
 sudo apt-get install libpq-dev python3-dev
 sudo apt-get install postgresql postgresql-contrib
@@ -130,7 +96,7 @@ exit
 engine = create_engine('postgresql://catalog:password@localhost/catalog')
 ```
 
-#### 10. Clone the Catalog app from GitHub and Configure it
+#### 9. Clone the Catalog app from GitHub and Configure it
 ```
 cd /var/www/
 sudo mkdir catalog
@@ -173,7 +139,7 @@ pip3 install sqlalchemy flask-sqlalchemy psycopg2 bleach requests
 
 Edit Authorized JavaScript origins
 
-#### 11. Configure apache server
+#### 10. Configure apache server
 ```
 sudo nano /etc/apache2/sites-enabled/000-default.conf
 ```
